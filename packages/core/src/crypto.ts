@@ -55,6 +55,8 @@ export function verify(
   // The try/catch is to work around an issue in Node 14.x where verify throws
   // an error in some scenarios if the signature is invalid.
   try {
+    // If an RSA key is used, set up the correct padding scheme to use.
+    // PKCS1 is default.
     return crypto.verify(algorithm, data, key, signature);
   } catch (e) {
     /* istanbul ignore next */

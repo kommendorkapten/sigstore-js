@@ -14,10 +14,12 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 import type { X509Certificate, crypto } from '@sigstore/core';
+import type { PublicKeyDetails } from '@sigstore/protobuf-specs';
 
 export type TLogAuthority = {
   logID: Buffer;
   publicKey: crypto.KeyObject;
+  keyType: PublicKeyDetails;
   validFor: {
     start: Date;
     end: Date;

@@ -61,20 +61,18 @@ function createTLogAuthority(
   tlogInstance: TransparencyLogInstance
 ): TLogAuthority {
   const keyDetails = tlogInstance.publicKey!.keyDetails;
-  const keyType =
+  const keyEncoding =
     keyDetails === PublicKeyDetails.PKCS1_RSA_PKCS1V5 ||
-    keyDetails === PublicKeyDetails.PKIX_RSA_PKCS1V5 ||
-    keyDetails === PublicKeyDetails.PKIX_RSA_PKCS1V15_2048_SHA256 ||
-    keyDetails === PublicKeyDetails.PKIX_RSA_PKCS1V15_3072_SHA256 ||
-    keyDetails === PublicKeyDetails.PKIX_RSA_PKCS1V15_4096_SHA256
+    keyDetails === PublicKeyDetails.PKCS1_RSA_PSS
       ? 'pkcs1'
       : 'spki';
   return {
     logID: tlogInstance.logId!.keyId,
     publicKey: crypto.createPublicKey(
       tlogInstance.publicKey!.rawBytes!,
-      keyType
+      keyEncoding
     ),
+    keyType: keyDetails,
     validFor: {
       start: tlogInstance.publicKey!.validFor?.start || BEGINNING_OF_TIME,
       end: tlogInstance.publicKey!.validFor?.end || END_OF_TIME,
